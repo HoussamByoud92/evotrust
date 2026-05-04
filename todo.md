@@ -1,0 +1,39 @@
+# EVOTRUST Baromètre Diaspora — TODO
+
+- [x] Schéma BDD : table survey_responses avec session_id, answers JSON, timestamps
+- [x] Migration SQL exécutée
+- [x] tRPC : procedure submitSurvey (public) — sauvegarde réponses
+- [x] tRPC : procedure getResponses (admin) — lecture réponses
+- [x] tRPC : procedure exportResponses (admin) — export CSV
+- [x] Landing page premium EVOTRUST avec image cover, branding, CTA
+- [x] Questionnaire : 25 questions, 1 par écran, barre de progression
+- [x] Thème 1 (Q1-Q7) : Profil & Situation — image profil
+- [x] Thème 2 (Q8-Q10) : L'Envie de Maroc — image maroc
+- [x] Thème 3 (Q11-Q14) : Craintes & Freins — image diaspora
+- [x] Thème 4 (Q15-Q18) : Attentes Concrètes — image success
+- [x] Thème 5 (Q19-Q25) : Perception & Confiance — image cover
+- [x] Navigation Suivant/Précédent fonctionnelle
+- [x] Validation des réponses obligatoires
+- [x] Page de confirmation finale après soumission
+- [x] Interface admin protégée (role admin)
+- [x] Admin : tableau des réponses avec pagination
+- [x] Admin : export CSV des réponses
+- [x] Design charbon/or appliqué globalement (index.css)
+- [x] Aucun picto/icône décoratif dans l'interface
+- [x] Tests vitest pour les procédures tRPC
+- [x] Checkpoint final
+
+- [ ] tRPC : procedure getStats — agrégation des réponses par question
+- [ ] Dashboard : KPIs (total réponses, taux de complétion, pays top)
+- [ ] Dashboard : graphique intention de retour (Q8)
+- [ ] Dashboard : graphique profil genre (Q1)
+- [ ] Dashboard : graphique pays de résidence (Q5)
+- [ ] Dashboard : graphique secteur d'activité (Q6)
+- [ ] Dashboard : graphique niveau de poste (Q7)
+- [ ] Dashboard : graphique horizon de retour (Q9)
+- [ ] Dashboard : graphique freins principaux (Q11)
+- [ ] Dashboard : graphique ville préférée au Maroc (Q18)
+- [ ] Dashboard : graphique confiance économique (Q19)
+- [ ] Navigation admin : lien entre Réponses et Dashboard
+- [ ] Tests vitest pour getStats
+- [ ] Checkpoint dashboard
