@@ -51,10 +51,10 @@ export function ManusDialog({
       open={onOpenChange ? open : internalOpen}
       onOpenChange={handleOpenChange}
     >
-      <DialogContent className="py-5 bg-white rounded-[20px] w-[400px] shadow-[0px_4px_11px_0px_rgba(85,85,85,0.15)] border border-[rgba(85,85,85,0.2)] backdrop-blur-2xl p-0 gap-0 text-center">
+      <DialogContent className="py-5 bg-white rounded-[20px] w-[400px] shadow-[0px_4px_11px_0px_rgba(40,32,29,0.15)] border border-[rgba(40,32,29,0.2)] backdrop-blur-2xl p-0 gap-0 text-center">
         <div className="flex flex-col items-center gap-2 p-5 pt-12">
           {logo ? (
-            <div className="w-16 h-16 bg-white rounded-xl border border-[rgba(85,85,85,0.2)] flex items-center justify-center">
+            <div className="w-16 h-16 bg-white rounded-xl border border-[rgba(40,32,29,0.2)] flex items-center justify-center">
               <img
                 src={logo}
                 alt="Dialog graphic"
@@ -65,11 +65,11 @@ export function ManusDialog({
 
           {/* Title and subtitle */}
           {title ? (
-            <DialogTitle className="text-xl font-semibold text-[#555555] leading-[26px] tracking-[-0.44px]">
+            <DialogTitle className="text-xl font-semibold text-[#28201d] leading-[26px] tracking-[-0.44px]">
               {title}
             </DialogTitle>
           ) : null}
-          <DialogDescription className="text-sm text-[rgba(85,85,85,0.75)] leading-5 tracking-[-0.154px]">
+          <DialogDescription className="text-sm text-[rgba(40,32,29,0.75)] leading-5 tracking-[-0.154px]">
             Please login with Manus to continue
           </DialogDescription>
         </div>
@@ -87,5 +87,6 @@ export function ManusDialog({
     </Dialog>
   );
 }
+
 
 

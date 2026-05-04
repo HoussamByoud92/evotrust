@@ -51,7 +51,7 @@ export default function Survey() {
   const handleNext = useCallback(() => {
     if (!question) return;
     if (question.required && !answers[question.id]) {
-      setError("Merci de rÃ©pondre Ã  cette question avant de continuer.");
+      setError("Merci de répondre à cette question avant de continuer.");
       return;
     }
     if (currentIndex < total - 1) {
@@ -76,7 +76,7 @@ export default function Survey() {
       await submitMutation.mutateAsync({ answers, sessionId });
       setStep("done");
     } catch {
-      setError("Une erreur est survenue. Veuillez rÃ©essayer.");
+      setError("Une erreur est survenue. Veuillez réessayer.");
     }
   }, [answers, submitMutation]);
 
@@ -101,7 +101,7 @@ export default function Survey() {
   const isLastQuestion = currentIndex === total - 1;
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: "#555555" }}>
+    <div className="min-h-screen flex flex-col" style={{ background: "#28201d" }}>
       {/* Header */}
       <header className="flex items-center justify-between px-8 py-5 border-b" style={{ borderColor: "rgba(194,156,94,0.15)" }}>
         <div className="flex items-center gap-3">
@@ -113,7 +113,7 @@ export default function Survey() {
           </span>
         </div>
         <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "11px", color: "rgba(194,156,94,0.6)", letterSpacing: "0.1em", textTransform: "uppercase" }}>
-          BaromÃ¨tre Diaspora 2025â€“2026
+          Baromètre Diaspora 2025–2026
         </div>
       </header>
 
@@ -192,8 +192,8 @@ export default function Survey() {
               {/* Multiple choice hint */}
               {isMultiple && question?.maxChoices && (
                 <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "12px", color: "rgba(194,156,94,0.6)", letterSpacing: "0.05em" }}>
-                  SÃ©lectionnez jusqu'Ã  {question.maxChoices} rÃ©ponse{question.maxChoices > 1 ? "s" : ""}
-                  {selectedMultiple.length > 0 && ` â€” ${selectedMultiple.length}/${question.maxChoices} sÃ©lectionnÃ©${selectedMultiple.length > 1 ? "s" : ""}`}
+                  Sélectionnez jusqu'à {question.maxChoices} réponse{question.maxChoices > 1 ? "s" : ""}
+                  {selectedMultiple.length > 0 && ` — ${selectedMultiple.length}/${question.maxChoices} sélectionné${selectedMultiple.length > 1 ? "s" : ""}`}
                 </p>
               )}
 
@@ -254,7 +254,7 @@ export default function Survey() {
                             <div style={{
                               width: isMultiple ? "10px" : "8px",
                               height: isMultiple ? "10px" : "8px",
-                              background: isMultiple ? "#555555" : "transparent",
+                              background: isMultiple ? "#28201d" : "transparent",
                               borderRadius: isMultiple ? "1px" : "50%",
                             }} />
                           )}
@@ -280,7 +280,7 @@ export default function Survey() {
                 <textarea
                   value={(currentAnswer as string) || ""}
                   onChange={e => handleOpenAnswer(e.target.value)}
-                  placeholder="Votre rÃ©ponse..."
+                  placeholder="Votre réponse..."
                   rows={5}
                   style={{
                     width: "100%",
@@ -326,7 +326,7 @@ export default function Survey() {
                 backgroundPosition: "center",
               }}
             >
-              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, #555555 0%, rgba(85,85,85,0.3) 40%, rgba(85,85,85,0.1) 100%)" }} />
+              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, #28201d 0%, rgba(40,32,29,0.3) 40%, rgba(40,32,29,0.1) 100%)" }} />
               {/* Theme label overlay */}
               <div style={{
                 position: "absolute",
@@ -379,7 +379,7 @@ export default function Survey() {
           onMouseEnter={e => { if (currentIndex > 0) (e.currentTarget as HTMLButtonElement).style.color = GOLD; }}
           onMouseLeave={e => { if (currentIndex > 0) (e.currentTarget as HTMLButtonElement).style.color = "rgba(194,156,94,0.6)"; }}
         >
-          PrÃ©cÃ©dent
+          Précédent
         </button>
 
         <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "11px", color: "rgba(194,156,94,0.4)", letterSpacing: "0.1em" }}>
@@ -394,7 +394,7 @@ export default function Survey() {
             fontSize: "12px",
             letterSpacing: "0.15em",
             textTransform: "uppercase",
-            color: "#555555",
+            color: "#28201d",
             background: GOLD,
             border: "none",
             cursor: "pointer",
@@ -416,7 +416,7 @@ export default function Survey() {
 
 function LandingPage({ onStart }: { onStart: () => void }) {
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: "#555555" }}>
+    <div className="min-h-screen flex flex-col" style={{ background: "#28201d" }}>
       <div className="flex flex-1">
         {/* Left content */}
         <div className="flex flex-col justify-between px-12 py-12 flex-1 max-w-2xl">
@@ -436,7 +436,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
 
             <div>
               <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "11px", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(194,156,94,0.6)", marginBottom: "16px" }}>
-                Ã‰dition 2025â€“2026
+                Édition 2025–2026
               </div>
               <h1 style={{
                 fontFamily: "'Cormorant Garamond', serif",
@@ -446,7 +446,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
                 color: "#ffffff",
                 letterSpacing: "-0.01em",
               }}>
-                BaromÃ¨tre<br />
+                Baromètre<br />
                 <span style={{ color: GOLD }}>Diaspora</span>
               </h1>
             </div>
@@ -459,14 +459,14 @@ function LandingPage({ onStart }: { onStart: () => void }) {
               color: "rgba(255,255,255,0.65)",
               maxWidth: "440px",
             }}>
-              25 questions. 5 thÃ©matiques. Une Ã©tude exclusive sur les attentes, les freins et les aspirations des talents marocains Ã  l'international.
+              25 questions. 5 thématiques. Une étude exclusive sur les attentes, les freins et les aspirations des talents marocains à l'international.
             </p>
 
             <div className="flex gap-8" style={{ borderTop: "1px solid rgba(194,156,94,0.15)", paddingTop: "24px" }}>
               {[
                 { value: "25", label: "Questions" },
-                { value: "5", label: "ThÃ©matiques" },
-                { value: "10 min", label: "DurÃ©e estimÃ©e" },
+                { value: "5", label: "Thématiques" },
+                { value: "10 min", label: "Durée estimée" },
               ].map(item => (
                 <div key={item.label}>
                   <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "28px", fontWeight: 600, color: GOLD }}>{item.value}</div>
@@ -484,7 +484,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
                 letterSpacing: "0.2em",
                 textTransform: "uppercase",
                 fontWeight: 600,
-                color: "#555555",
+                color: "#28201d",
                 background: GOLD,
                 border: "none",
                 padding: "16px 48px",
@@ -507,7 +507,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
 
           {/* Footer */}
           <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "10px", color: "rgba(194,156,94,0.3)", letterSpacing: "0.1em" }}>
-            Document confidentiel Â· EVOTRUST Â· Casablanca
+            Document confidentiel · EVOTRUST · Casablanca
           </div>
         </div>
 
@@ -522,7 +522,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
               backgroundPosition: "center",
             }}
           >
-            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, #555555 0%, rgba(85,85,85,0.5) 50%, rgba(85,85,85,0.15) 100%)" }} />
+            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, #28201d 0%, rgba(40,32,29,0.5) 50%, rgba(40,32,29,0.15) 100%)" }} />
           </div>
           {/* Decorative quote */}
           <div style={{
@@ -552,7 +552,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
 
 function ConfirmationPage() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center" style={{ background: "#555555" }}>
+    <div className="min-h-screen flex flex-col items-center justify-center" style={{ background: "#28201d" }}>
       <div className="flex flex-col items-center gap-8 text-center px-8" style={{ maxWidth: "560px" }}>
         <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "24px", fontWeight: 600, letterSpacing: "0.05em", color: "#ffffff" }}>
           evo<span style={{ color: GOLD }}>t</span>rust
@@ -577,7 +577,7 @@ function ConfirmationPage() {
           color: "rgba(255,255,255,0.65)",
           lineHeight: 1.8,
         }}>
-          Vos rÃ©ponses ont bien Ã©tÃ© enregistrÃ©es. Elles contribueront Ã  mieux comprendre les attentes et les aspirations des talents marocains Ã  l'international.
+          Vos réponses ont bien été enregistrées. Elles contribueront à mieux comprendre les attentes et les aspirations des talents marocains à l'international.
         </p>
 
         <p style={{
@@ -587,7 +587,7 @@ function ConfirmationPage() {
           letterSpacing: "0.08em",
           lineHeight: 1.7,
         }}>
-          EVOTRUST vous recontactera prochainement avec les rÃ©sultats de cette Ã©tude exclusive.
+          EVOTRUST vous recontactera prochainement avec les résultats de cette étude exclusive.
         </p>
 
         <div style={{ width: "40px", height: "1px", background: "rgba(194,156,94,0.3)" }} />
@@ -601,7 +601,7 @@ function ConfirmationPage() {
             fontSize: "11px",
             letterSpacing: "0.2em",
             textTransform: "uppercase",
-            color: "#555555",
+            color: "#28201d",
             background: GOLD,
             padding: "14px 40px",
             borderRadius: "1px",
@@ -612,15 +612,16 @@ function ConfirmationPage() {
           onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = "#c29c5e"; }}
           onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = GOLD; }}
         >
-          DÃ©couvrir EVOTRUST
+          Découvrir EVOTRUST
         </a>
 
         <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "10px", color: "rgba(194,156,94,0.25)", letterSpacing: "0.1em" }}>
-          Document confidentiel Â· EVOTRUST Â· Casablanca
+          Document confidentiel · EVOTRUST · Casablanca
         </p>
       </div>
     </div>
   );
 }
+
 
 

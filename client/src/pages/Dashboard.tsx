@@ -11,8 +11,8 @@ import {
 const GOLD = "#c29c5e";
 const GOLD_LIGHT = "rgba(194,156,94,0.6)";
 const GOLD_FAINT = "rgba(194,156,94,0.15)";
-const CHARCOAL = "#555555";
-const CHARCOAL_CARD = "#555555";
+const CHARCOAL = "#28201d";
+const CHARCOAL_CARD = "#28201d";
 const TEXT = "#ffffff";
 const TEXT_MUTED = "rgba(255,255,255,0.5)";
 
@@ -28,7 +28,7 @@ function CustomTooltip({ active, payload, label }: { active?: boolean; payload?:
   if (!active || !payload?.length) return null;
   return (
     <div style={{
-      background: "#555555",
+      background: "#28201d",
       border: `1px solid ${GOLD_FAINT}`,
       borderRadius: "2px",
       padding: "10px 16px",
@@ -89,7 +89,7 @@ function EmptyChart() {
   return (
     <div style={{ height: "200px", display: "flex", alignItems: "center", justifyContent: "center" }}>
       <p style={{ fontFamily: FONT_SERIF, fontSize: "16px", color: TEXT_MUTED, fontStyle: "italic" }}>
-        Aucune donnÃ©e disponible
+        Aucune donnée disponible
       </p>
     </div>
   );
@@ -116,7 +116,7 @@ export default function Dashboard() {
     return (
       <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "24px", background: CHARCOAL }}>
         <div style={{ fontFamily: FONT_SERIF, fontSize: "28px", color: TEXT }}>evo<span style={{ color: GOLD }}>t</span>rust</div>
-        <p style={{ fontFamily: FONT_SANS, fontSize: "13px", color: TEXT_MUTED }}>AccÃ¨s rÃ©servÃ© aux administrateurs</p>
+        <p style={{ fontFamily: FONT_SANS, fontSize: "13px", color: TEXT_MUTED }}>Accès réservé aux administrateurs</p>
         <a href={getLoginUrl()} style={{ fontFamily: FONT_SANS, fontSize: "11px", letterSpacing: "0.2em", textTransform: "uppercase", color: CHARCOAL, background: GOLD, padding: "12px 32px", borderRadius: "1px", textDecoration: "none", fontWeight: 600 }}>
           Se connecter
         </a>
@@ -127,8 +127,8 @@ export default function Dashboard() {
   if (user.role !== "admin") {
     return (
       <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "16px", background: CHARCOAL }}>
-        <p style={{ fontFamily: FONT_SERIF, fontSize: "24px", color: TEXT }}>AccÃ¨s refusÃ©</p>
-        <a href="/" style={{ fontFamily: FONT_SANS, fontSize: "11px", color: GOLD_LIGHT, textDecoration: "none" }}>Retour Ã  l'accueil</a>
+        <p style={{ fontFamily: FONT_SERIF, fontSize: "24px", color: TEXT }}>Accès refusé</p>
+        <a href="/" style={{ fontFamily: FONT_SANS, fontSize: "11px", color: GOLD_LIGHT, textDecoration: "none" }}>Retour à l'accueil</a>
       </div>
     );
   }
@@ -150,7 +150,7 @@ export default function Dashboard() {
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <a href="/admin" style={{ fontFamily: FONT_SANS, fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase", color: TEXT_MUTED, textDecoration: "none", border: `1px solid rgba(194,156,94,0.15)`, padding: "7px 18px", borderRadius: "1px" }}>
-            RÃ©ponses brutes
+            Réponses brutes
           </a>
           <a href="/" style={{ fontFamily: FONT_SANS, fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase", color: TEXT_MUTED, textDecoration: "none", border: `1px solid rgba(194,156,94,0.15)`, padding: "7px 18px", borderRadius: "1px" }}>
             Questionnaire
@@ -162,10 +162,10 @@ export default function Dashboard() {
         {/* Title */}
         <div style={{ marginBottom: "40px" }}>
           <div style={{ fontFamily: FONT_SANS, fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", color: GOLD_LIGHT, marginBottom: "8px" }}>
-            Ã‰dition 2025â€“2026
+            Édition 2025–2026
           </div>
           <h1 style={{ fontFamily: FONT_SERIF, fontSize: "36px", fontWeight: 400, color: TEXT, letterSpacing: "0.01em" }}>
-            RÃ©sultats du BaromÃ¨tre Diaspora
+            Résultats du Baromètre Diaspora
           </h1>
         </div>
 
@@ -176,19 +176,19 @@ export default function Dashboard() {
         ) : !stats || stats.total === 0 ? (
           <div style={{ textAlign: "center", padding: "80px 0", border: `1px solid ${GOLD_FAINT}`, borderRadius: "2px" }}>
             <p style={{ fontFamily: FONT_SERIF, fontSize: "22px", color: TEXT_MUTED, fontStyle: "italic" }}>
-              Aucune rÃ©ponse enregistrÃ©e pour le moment.
+              Aucune réponse enregistrée pour le moment.
             </p>
             <p style={{ fontFamily: FONT_SANS, fontSize: "12px", color: TEXT_MUTED, marginTop: "12px", letterSpacing: "0.05em" }}>
-              Les donnÃ©es apparaÃ®tront ici dÃ¨s les premiÃ¨res soumissions.
+              Les données apparaîtront ici dès les premières soumissions.
             </p>
           </div>
         ) : (
           <>
             {/* KPIs */}
             <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", marginBottom: "40px" }}>
-              <KpiCard label="RÃ©ponses collectÃ©es" value={stats.total} />
-              <KpiCard label="Pays reprÃ©sentÃ©s" value={stats.pays.length} />
-              <KpiCard label="Secteurs reprÃ©sentÃ©s" value={stats.secteur.length} />
+              <KpiCard label="Réponses collectées" value={stats.total} />
+              <KpiCard label="Pays représentés" value={stats.pays.length} />
+              <KpiCard label="Secteurs représentés" value={stats.secteur.length} />
               <KpiCard
                 label="Intention de retour"
                 value={`${Math.round(((stats.intentionRetour.find(d => d.name.includes("projet"))?.value || 0) / stats.total) * 100)}%`}
@@ -196,10 +196,10 @@ export default function Dashboard() {
               />
             </div>
 
-            {/* Ã‰volution temporelle */}
+            {/* Évolution temporelle */}
             {stats.submissionsByDay.length > 1 && (
               <div style={{ marginBottom: "32px" }}>
-                <ChartCard title="Ã‰volution des soumissions" fullWidth>
+                <ChartCard title="Évolution des soumissions" fullWidth>
                   <ResponsiveContainer width="100%" height={180}>
                     <LineChart data={stats.submissionsByDay}>
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(194,156,94,0.08)" />
@@ -215,7 +215,7 @@ export default function Dashboard() {
 
             {/* Profil */}
             <div style={{ marginBottom: "16px" }}>
-              <SectionTitle>Profil des rÃ©pondants</SectionTitle>
+              <SectionTitle>Profil des répondants</SectionTitle>
             </div>
             <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", marginBottom: "32px" }}>
               {/* Genre */}
@@ -234,7 +234,7 @@ export default function Dashboard() {
               </ChartCard>
 
               {/* Pays */}
-              <ChartCard title="Pays de rÃ©sidence (Q5)">
+              <ChartCard title="Pays de résidence (Q5)">
                 {stats.pays.length === 0 ? <EmptyChart /> : (
                   <ResponsiveContainer width="100%" height={200}>
                     <BarChart data={stats.pays.slice(0, 7)} layout="vertical" margin={{ left: 0, right: 16 }}>
@@ -250,7 +250,7 @@ export default function Dashboard() {
               </ChartCard>
 
               {/* Secteur */}
-              <ChartCard title="Secteur d'activitÃ© (Q6)">
+              <ChartCard title="Secteur d'activité (Q6)">
                 {stats.secteur.length === 0 ? <EmptyChart /> : (
                   <ResponsiveContainer width="100%" height={200}>
                     <BarChart data={stats.secteur.slice(0, 7)} layout="vertical" margin={{ left: 0, right: 16 }}>
@@ -303,7 +303,7 @@ export default function Dashboard() {
               </ChartCard>
 
               {/* Horizon de retour */}
-              <ChartCard title="Horizon de retour envisagÃ© (Q9)">
+              <ChartCard title="Horizon de retour envisagé (Q9)">
                 {stats.horizonRetour.length === 0 ? <EmptyChart /> : (
                   <ResponsiveContainer width="100%" height={220}>
                     <BarChart data={stats.horizonRetour} margin={{ bottom: 20 }}>
@@ -324,7 +324,7 @@ export default function Dashboard() {
               <SectionTitle>Craintes & Freins</SectionTitle>
             </div>
             <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", marginBottom: "32px" }}>
-              <ChartCard title="Principaux obstacles au retour (Q11 â€” Top 8)" fullWidth>
+              <ChartCard title="Principaux obstacles au retour (Q11 — Top 8)" fullWidth>
                 {stats.freins.length === 0 ? <EmptyChart /> : (
                   <ResponsiveContainer width="100%" height={280}>
                     <BarChart data={stats.freins} layout="vertical" margin={{ left: 0, right: 24 }}>
@@ -347,8 +347,8 @@ export default function Dashboard() {
               <SectionTitle>Perception & Confiance</SectionTitle>
             </div>
             <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", marginBottom: "40px" }}>
-              {/* Ville prÃ©fÃ©rÃ©e */}
-              <ChartCard title="Ville prÃ©fÃ©rÃ©e au Maroc (Q18)">
+              {/* Ville préférée */}
+              <ChartCard title="Ville préférée au Maroc (Q18)">
                 {stats.villeMaroc.length === 0 ? <EmptyChart /> : (
                   <ResponsiveContainer width="100%" height={220}>
                     <PieChart>
@@ -362,8 +362,8 @@ export default function Dashboard() {
                 <Legend data={stats.villeMaroc} />
               </ChartCard>
 
-              {/* Confiance Ã©conomique */}
-              <ChartCard title="Confiance dans l'avenir Ã©conomique (Q19)">
+              {/* Confiance économique */}
+              <ChartCard title="Confiance dans l'avenir économique (Q19)">
                 {stats.confianceEco.length === 0 ? <EmptyChart /> : (
                   <ResponsiveContainer width="100%" height={220}>
                     <BarChart data={stats.confianceEco} margin={{ bottom: 10 }}>
@@ -382,7 +382,7 @@ export default function Dashboard() {
             {/* Footer */}
             <div style={{ borderTop: `1px solid ${GOLD_FAINT}`, paddingTop: "24px", textAlign: "center" }}>
               <p style={{ fontFamily: FONT_SANS, fontSize: "10px", color: TEXT_MUTED, letterSpacing: "0.1em" }}>
-                DonnÃ©es actualisÃ©es toutes les 30 secondes Â· EVOTRUST BaromÃ¨tre Diaspora 2025â€“2026
+                Données actualisées toutes les 30 secondes · EVOTRUST Baromètre Diaspora 2025–2026
               </p>
             </div>
           </>
@@ -407,4 +407,5 @@ function Legend({ data }: { data: { name: string; value: number }[] }) {
     </div>
   );
 }
+
 

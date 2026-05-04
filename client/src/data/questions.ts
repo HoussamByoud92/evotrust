@@ -1,4 +1,4 @@
-export type QuestionType = "single" | "multiple" | "scale" | "open";
+﻿export type QuestionType = "single" | "multiple" | "scale" | "open";
 
 export interface Question {
   id: string;
@@ -347,3 +347,6 @@ export const QUESTIONS: Question[] = [
     image: "/manus-storage/img_cover_92b3b2c3.jpg",
   },
 ];
+
+
+

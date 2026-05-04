@@ -32,7 +32,7 @@ export default function Admin() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "#555555" }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "#28201d" }}>
         <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "12px", color: "rgba(194,156,94,0.5)", letterSpacing: "0.15em" }}>
           Chargement...
         </div>
@@ -42,12 +42,12 @@ export default function Admin() {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-6" style={{ background: "#555555" }}>
+      <div className="min-h-screen flex flex-col items-center justify-center gap-6" style={{ background: "#28201d" }}>
         <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "24px", color: "#ffffff" }}>
           evo<span style={{ color: GOLD }}>t</span>rust
         </div>
         <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "13px", color: "rgba(255,255,255,0.5)", letterSpacing: "0.05em" }}>
-          AccÃ¨s rÃ©servÃ© aux administrateurs
+          Accès réservé aux administrateurs
         </p>
         <a
           href={getLoginUrl()}
@@ -56,7 +56,7 @@ export default function Admin() {
             fontSize: "11px",
             letterSpacing: "0.2em",
             textTransform: "uppercase",
-            color: "#555555",
+            color: "#28201d",
             background: GOLD,
             padding: "12px 32px",
             borderRadius: "1px",
@@ -72,12 +72,12 @@ export default function Admin() {
 
   if (user.role !== "admin") {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-4" style={{ background: "#555555" }}>
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4" style={{ background: "#28201d" }}>
         <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "24px", color: "#ffffff" }}>
-          AccÃ¨s refusÃ©
+          Accès refusé
         </p>
         <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "12px", color: "rgba(255,255,255,0.4)" }}>
-          Vous n'avez pas les droits nÃ©cessaires pour accÃ©der Ã  cette page.
+          Vous n'avez pas les droits nécessaires pour accéder à cette page.
         </p>
       </div>
     );
@@ -88,7 +88,7 @@ export default function Admin() {
   const paginatedResponses = responses.slice(page * pageSize, (page + 1) * pageSize);
 
   return (
-    <div className="min-h-screen" style={{ background: "#555555" }}>
+    <div className="min-h-screen" style={{ background: "#28201d" }}>
       {/* Header */}
       <header className="flex items-center justify-between px-8 py-5" style={{ borderBottom: "1px solid rgba(194,156,94,0.15)" }}>
         <div className="flex items-center gap-4">
@@ -147,7 +147,7 @@ export default function Admin() {
               {responses.length}
             </div>
             <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(194,156,94,0.5)", marginTop: "4px" }}>
-              RÃ©ponses collectÃ©es
+              Réponses collectées
             </div>
           </div>
         </div>
@@ -155,7 +155,7 @@ export default function Admin() {
         {/* Actions */}
         <div className="flex items-center justify-between mb-6">
           <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "24px", fontWeight: 500, color: "#ffffff" }}>
-            RÃ©ponses du BaromÃ¨tre
+            Réponses du Baromètre
           </h2>
           <button
             onClick={handleExport}
@@ -165,7 +165,7 @@ export default function Admin() {
               fontSize: "11px",
               letterSpacing: "0.15em",
               textTransform: "uppercase",
-              color: "#555555",
+              color: "#28201d",
               background: responses.length === 0 ? "rgba(194,156,94,0.3)" : GOLD,
               border: "none",
               padding: "10px 24px",
@@ -182,7 +182,7 @@ export default function Admin() {
         {/* Table */}
         {responsesQuery.isLoading ? (
           <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "12px", color: "rgba(194,156,94,0.4)", padding: "40px 0", textAlign: "center" }}>
-            Chargement des rÃ©ponses...
+            Chargement des réponses...
           </div>
         ) : responses.length === 0 ? (
           <div style={{
@@ -192,7 +192,7 @@ export default function Admin() {
             borderRadius: "2px",
           }}>
             <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "20px", color: "rgba(255,255,255,0.4)" }}>
-              Aucune rÃ©ponse enregistrÃ©e pour le moment.
+              Aucune réponse enregistrée pour le moment.
             </p>
           </div>
         ) : (
@@ -201,7 +201,7 @@ export default function Admin() {
               <table style={{ width: "100%", borderCollapse: "collapse" }}>
                 <thead>
                   <tr style={{ borderBottom: "1px solid rgba(194,156,94,0.2)" }}>
-                    {["ID", "Session", "Date de soumission", "RÃ©ponses"].map(col => (
+                    {["ID", "Session", "Date de soumission", "Réponses"].map(col => (
                       <th key={col} style={{
                         padding: "12px 16px",
                         textAlign: "left",
@@ -271,7 +271,7 @@ export default function Admin() {
                     cursor: page === 0 ? "not-allowed" : "pointer",
                   }}
                 >
-                  PrÃ©cÃ©dent
+                  Précédent
                 </button>
                 <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "11px", color: "rgba(194,156,94,0.4)" }}>
                   {page + 1} / {totalPages}
@@ -323,7 +323,7 @@ function ResponseDetail({ answers, answerCount }: { answers: Record<string, unkn
           cursor: "pointer",
         }}
       >
-        {answerCount} rÃ©ponse{answerCount > 1 ? "s" : ""} {open ? "â€”" : "+"}
+        {answerCount} réponse{answerCount > 1 ? "s" : ""} {open ? "—" : "+"}
       </button>
       {open && (
         <div style={{
@@ -352,4 +352,5 @@ function ResponseDetail({ answers, answerCount }: { answers: Record<string, unkn
     </div>
   );
 }
+
 
