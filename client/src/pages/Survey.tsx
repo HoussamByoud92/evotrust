@@ -94,7 +94,7 @@ export default function Survey() {
   if (step === "landing") return <LandingPage onStart={() => setStep("survey")} />;
   if (step === "done") return <ConfirmationPage />;
 
-  const bgImage = currentTheme?.image;
+  const questionImage = question?.image || currentTheme?.image || "/manus-storage/img_cover_92b3b2c3.jpg";
   const currentAnswer = answers[question?.id || ""];
   const isMultiple = question?.type === "multiple";
   const selectedMultiple = (currentAnswer as string[]) || [];
@@ -159,9 +159,66 @@ export default function Survey() {
       </div>
 
       {/* Main content */}
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 flex-col lg:flex-row overflow-hidden">
+        {/* Mobile / Tablet: Question image per step */}
+        <div className="lg:hidden px-6 pt-6">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`mobile-${question?.id}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className="relative w-full h-[190px] sm:h-[230px] overflow-hidden rounded-sm border"
+              style={{ borderColor: "rgba(194,156,94,0.25)" }}
+            >
+              <div
+                className="absolute inset-0"
+                style={{
+                  backgroundImage: `url(${questionImage})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background: "linear-gradient(to top, rgba(40,32,29,0.75) 0%, rgba(40,32,29,0.2) 55%, rgba(40,32,29,0.05) 100%)",
+                }}
+              />
+              <div className="absolute left-4 bottom-4 right-4">
+                <div
+                  style={{
+                    fontFamily: "'Montserrat', sans-serif",
+                    fontSize: "10px",
+                    letterSpacing: "0.16em",
+                    textTransform: "uppercase",
+                    color: "rgba(194,156,94,0.9)",
+                    marginBottom: "4px",
+                  }}
+                >
+                  {currentTheme?.questions}
+                </div>
+                <div
+                  style={{
+                    fontFamily: "'Cormorant Garamond', serif",
+                    fontSize: "18px",
+                    fontWeight: 500,
+                    color: "#ffffff",
+                    letterSpacing: "0.02em",
+                    lineHeight: 1.2,
+                  }}
+                >
+                  {currentTheme?.label}
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
         {/* Left: Question */}
-        <div className="flex flex-col flex-1 justify-center px-12 py-10 max-w-2xl">
+        <div className="flex flex-col flex-1 justify-center px-6 lg:px-12 py-8 lg:py-10 max-w-2xl">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={question?.id}
@@ -314,14 +371,14 @@ export default function Survey() {
         <div className="hidden lg:block flex-1 relative overflow-hidden" style={{ maxWidth: "45%" }}>
           <AnimatePresence mode="wait">
             <motion.div
-              key={bgImage}
+              key={`desktop-${question?.id}`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.8 }}
               className="absolute inset-0"
               style={{
-                backgroundImage: `url(${bgImage})`,
+                backgroundImage: `url(${questionImage})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
