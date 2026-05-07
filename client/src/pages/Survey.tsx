@@ -7,6 +7,41 @@ import { motion, AnimatePresence } from "framer-motion";
 const GOLD = "#c29c5e";
 const sessionId = nanoid();
 
+const IMG_MOROCCO_MEDINA = "https://images.unsplash.com/photo-1747576413283-c41c01f240dc?auto=format&fit=crop&q=80&w=1800";
+const IMG_FEZ_CROWD = "https://images.unsplash.com/photo-1730759214458-c3232b490964?auto=format&fit=crop&q=80&w=1800";
+const IMG_MARRAKECH_TRADITION = "https://images.unsplash.com/photo-1766330976632-50297e74bd41?auto=format&fit=crop&q=80&w=1800";
+const IMG_TUNIS_ARCH = "https://images.unsplash.com/photo-1684097707046-1d65f3cd7793?auto=format&fit=crop&q=80&w=1800";
+const IMG_CHEFCHAOUEN = "https://images.unsplash.com/photo-1667485681657-1e386c105e4f?auto=format&fit=crop&q=80&w=1800";
+const IMG_TUNIS_STREET = "https://images.unsplash.com/photo-1674764190686-96b65f3bfe1d?auto=format&fit=crop&q=80&w=1800";
+
+const STEP_IMAGE_BY_QUESTION_ID: Record<string, string> = {
+  q1: IMG_CHEFCHAOUEN,
+  q2: IMG_MOROCCO_MEDINA,
+  q3: IMG_FEZ_CROWD,
+  q4: IMG_TUNIS_ARCH,
+  q5: IMG_TUNIS_STREET,
+  q6: IMG_FEZ_CROWD,
+  q7: IMG_MARRAKECH_TRADITION,
+  q8: IMG_MARRAKECH_TRADITION,
+  q9: IMG_MOROCCO_MEDINA,
+  q10: IMG_CHEFCHAOUEN,
+  q11: IMG_FEZ_CROWD,
+  q12: IMG_TUNIS_ARCH,
+  q13: IMG_MOROCCO_MEDINA,
+  q14: IMG_TUNIS_STREET,
+  q15: IMG_MARRAKECH_TRADITION,
+  q16: IMG_TUNIS_ARCH,
+  q17: IMG_MOROCCO_MEDINA,
+  q18: IMG_CHEFCHAOUEN,
+  q19: IMG_FEZ_CROWD,
+  q20: IMG_TUNIS_STREET,
+  q21: IMG_MARRAKECH_TRADITION,
+  q22: IMG_TUNIS_ARCH,
+  q23: IMG_MOROCCO_MEDINA,
+  q24: IMG_FEZ_CROWD,
+  q25: IMG_CHEFCHAOUEN,
+};
+
 type Answers = Record<string, string | string[] | null>;
 
 export default function Survey() {
@@ -94,7 +129,9 @@ export default function Survey() {
   if (step === "landing") return <LandingPage onStart={() => setStep("survey")} />;
   if (step === "done") return <ConfirmationPage />;
 
-  const questionImage = question?.image || currentTheme?.image || "/manus-storage/img_cover_92b3b2c3.jpg";
+  const questionImage =
+    (question?.id ? STEP_IMAGE_BY_QUESTION_ID[question.id] : undefined) ||
+    IMG_MOROCCO_MEDINA;
   const currentAnswer = answers[question?.id || ""];
   const isMultiple = question?.type === "multiple";
   const selectedMultiple = (currentAnswer as string[]) || [];
@@ -574,7 +611,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             style={{
               position: "absolute",
               inset: 0,
-              backgroundImage: `url(/manus-storage/img_cover_92b3b2c3.jpg)`,
+              backgroundImage: `url(${IMG_FEZ_CROWD})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
