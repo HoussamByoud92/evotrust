@@ -6,40 +6,40 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const GOLD = "#c29c5e";
 const sessionId = nanoid();
+const LOGO_SRC = "/logo-evotrust.png";
 
-const IMG_MOROCCO_MEDINA = "https://images.unsplash.com/photo-1747576413283-c41c01f240dc?auto=format&fit=crop&q=80&w=1800";
-const IMG_FEZ_CROWD = "https://images.unsplash.com/photo-1730759214458-c3232b490964?auto=format&fit=crop&q=80&w=1800";
-const IMG_MARRAKECH_TRADITION = "https://images.unsplash.com/photo-1766330976632-50297e74bd41?auto=format&fit=crop&q=80&w=1800";
-const IMG_TUNIS_ARCH = "https://images.unsplash.com/photo-1684097707046-1d65f3cd7793?auto=format&fit=crop&q=80&w=1800";
-const IMG_CHEFCHAOUEN = "https://images.unsplash.com/photo-1667485681657-1e386c105e4f?auto=format&fit=crop&q=80&w=1800";
-const IMG_TUNIS_STREET = "https://images.unsplash.com/photo-1674764190686-96b65f3bfe1d?auto=format&fit=crop&q=80&w=1800";
+const IMG_AFRICAN_BOARDROOM = "https://images.unsplash.com/photo-1573166364839-1bfe9196c23e?auto=format&fit=crop&q=80&w=1800";
+const IMG_AFRICAN_MANAGER_MEET = "https://images.unsplash.com/photo-1573164574511-73c773193279?auto=format&fit=crop&q=80&w=1800";
+const IMG_AFRICAN_CADRE_INTERVIEW = "https://images.unsplash.com/photo-1573496130407-57329f01f769?auto=format&fit=crop&q=80&w=1800";
+const IMG_AFRICAN_EXEC_TEAM = "https://images.unsplash.com/photo-1573164574397-dd250bc8a598?auto=format&fit=crop&q=80&w=1800";
+const IMG_CORPORATE_LOBBY = "https://images.unsplash.com/photo-1758518729759-f580dc06770f?auto=format&fit=crop&q=80&w=1800";
 
 const STEP_IMAGE_BY_QUESTION_ID: Record<string, string> = {
-  q1: IMG_CHEFCHAOUEN,
-  q2: IMG_MOROCCO_MEDINA,
-  q3: IMG_FEZ_CROWD,
-  q4: IMG_TUNIS_ARCH,
-  q5: IMG_TUNIS_STREET,
-  q6: IMG_FEZ_CROWD,
-  q7: IMG_MARRAKECH_TRADITION,
-  q8: IMG_MARRAKECH_TRADITION,
-  q9: IMG_MOROCCO_MEDINA,
-  q10: IMG_CHEFCHAOUEN,
-  q11: IMG_FEZ_CROWD,
-  q12: IMG_TUNIS_ARCH,
-  q13: IMG_MOROCCO_MEDINA,
-  q14: IMG_TUNIS_STREET,
-  q15: IMG_MARRAKECH_TRADITION,
-  q16: IMG_TUNIS_ARCH,
-  q17: IMG_MOROCCO_MEDINA,
-  q18: IMG_CHEFCHAOUEN,
-  q19: IMG_FEZ_CROWD,
-  q20: IMG_TUNIS_STREET,
-  q21: IMG_MARRAKECH_TRADITION,
-  q22: IMG_TUNIS_ARCH,
-  q23: IMG_MOROCCO_MEDINA,
-  q24: IMG_FEZ_CROWD,
-  q25: IMG_CHEFCHAOUEN,
+  q1: IMG_AFRICAN_MANAGER_MEET,
+  q2: IMG_AFRICAN_EXEC_TEAM,
+  q3: IMG_AFRICAN_BOARDROOM,
+  q4: IMG_CORPORATE_LOBBY,
+  q5: IMG_AFRICAN_CADRE_INTERVIEW,
+  q6: IMG_AFRICAN_EXEC_TEAM,
+  q7: IMG_AFRICAN_MANAGER_MEET,
+  q8: IMG_CORPORATE_LOBBY,
+  q9: IMG_AFRICAN_BOARDROOM,
+  q10: IMG_AFRICAN_EXEC_TEAM,
+  q11: IMG_AFRICAN_CADRE_INTERVIEW,
+  q12: IMG_AFRICAN_MANAGER_MEET,
+  q13: IMG_AFRICAN_EXEC_TEAM,
+  q14: IMG_AFRICAN_BOARDROOM,
+  q15: IMG_CORPORATE_LOBBY,
+  q16: IMG_AFRICAN_MANAGER_MEET,
+  q17: IMG_AFRICAN_CADRE_INTERVIEW,
+  q18: IMG_AFRICAN_EXEC_TEAM,
+  q19: IMG_AFRICAN_BOARDROOM,
+  q20: IMG_AFRICAN_MANAGER_MEET,
+  q21: IMG_AFRICAN_EXEC_TEAM,
+  q22: IMG_CORPORATE_LOBBY,
+  q23: IMG_AFRICAN_CADRE_INTERVIEW,
+  q24: IMG_AFRICAN_BOARDROOM,
+  q25: IMG_AFRICAN_MANAGER_MEET,
 };
 
 type Answers = Record<string, string | string[] | null>;
@@ -131,23 +131,22 @@ export default function Survey() {
 
   const questionImage =
     (question?.id ? STEP_IMAGE_BY_QUESTION_ID[question.id] : undefined) ||
-    IMG_MOROCCO_MEDINA;
+    IMG_AFRICAN_BOARDROOM;
   const currentAnswer = answers[question?.id || ""];
   const isMultiple = question?.type === "multiple";
   const selectedMultiple = (currentAnswer as string[]) || [];
   const isLastQuestion = currentIndex === total - 1;
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: "#28201d" }}>
+    <div className="min-h-screen flex flex-col" style={{ background: "#262b2d" }}>
       {/* Header */}
       <header className="flex items-center justify-between px-8 py-5 border-b" style={{ borderColor: "rgba(194,156,94,0.15)" }}>
         <div className="flex items-center gap-3">
-          <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "22px", fontWeight: 600, letterSpacing: "0.05em", color: "#ffffff" }}>
-            evo<span style={{ color: GOLD }}>t</span>rust
-          </span>
-          <span style={{ color: "rgba(194,156,94,0.5)", fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", fontFamily: "'Montserrat', sans-serif" }}>
-            Connecting Talents
-          </span>
+          <img
+            src={LOGO_SRC}
+            alt="EVOTRUST logo"
+            className="h-9 w-auto object-contain"
+          />
         </div>
         <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "11px", color: "rgba(194,156,94,0.6)", letterSpacing: "0.1em", textTransform: "uppercase" }}>
           Baromètre Diaspora 2025–2026
@@ -221,7 +220,7 @@ export default function Survey() {
                 style={{
                   position: "absolute",
                   inset: 0,
-                  background: "linear-gradient(to top, rgba(40,32,29,0.75) 0%, rgba(40,32,29,0.2) 55%, rgba(40,32,29,0.05) 100%)",
+                  background: "linear-gradient(to top, rgba(38,43,45,0.75) 0%, rgba(38,43,45,0.2) 55%, rgba(38,43,45,0.05) 100%)",
                 }}
               />
               <div className="absolute left-4 bottom-4 right-4">
@@ -348,7 +347,7 @@ export default function Survey() {
                             <div style={{
                               width: isMultiple ? "10px" : "8px",
                               height: isMultiple ? "10px" : "8px",
-                              background: isMultiple ? "#28201d" : "transparent",
+                              background: isMultiple ? "#262b2d" : "transparent",
                               borderRadius: isMultiple ? "1px" : "50%",
                             }} />
                           )}
@@ -420,7 +419,7 @@ export default function Survey() {
                 backgroundPosition: "center",
               }}
             >
-              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, #28201d 0%, rgba(40,32,29,0.3) 40%, rgba(40,32,29,0.1) 100%)" }} />
+              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, #262b2d 0%, rgba(38,43,45,0.3) 40%, rgba(38,43,45,0.1) 100%)" }} />
               {/* Theme label overlay */}
               <div style={{
                 position: "absolute",
@@ -488,7 +487,7 @@ export default function Survey() {
             fontSize: "12px",
             letterSpacing: "0.15em",
             textTransform: "uppercase",
-            color: "#28201d",
+            color: "#262b2d",
             background: GOLD,
             border: "none",
             cursor: "pointer",
@@ -510,18 +509,17 @@ export default function Survey() {
 
 function LandingPage({ onStart }: { onStart: () => void }) {
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: "#28201d" }}>
+    <div className="min-h-screen flex flex-col" style={{ background: "#262b2d" }}>
       <div className="flex flex-1">
         {/* Left content */}
         <div className="flex flex-col justify-between px-12 py-12 flex-1 max-w-2xl">
           {/* Logo */}
           <div>
-            <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "28px", fontWeight: 600, letterSpacing: "0.05em", color: "#ffffff" }}>
-              evo<span style={{ color: GOLD }}>t</span>rust
-            </div>
-            <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "10px", letterSpacing: "0.25em", textTransform: "uppercase", color: "rgba(194,156,94,0.5)", marginTop: "4px" }}>
-              Connecting Talents
-            </div>
+            <img
+              src={LOGO_SRC}
+              alt="EVOTRUST logo"
+              className="h-14 md:h-16 w-auto object-contain"
+            />
           </div>
 
           {/* Main content */}
@@ -578,7 +576,7 @@ function LandingPage({ onStart }: { onStart: () => void }) {
                 letterSpacing: "0.2em",
                 textTransform: "uppercase",
                 fontWeight: 600,
-                color: "#28201d",
+                color: "#262b2d",
                 background: GOLD,
                 border: "none",
                 padding: "16px 48px",
@@ -611,12 +609,12 @@ function LandingPage({ onStart }: { onStart: () => void }) {
             style={{
               position: "absolute",
               inset: 0,
-              backgroundImage: `url(${IMG_FEZ_CROWD})`,
+              backgroundImage: `url(${IMG_AFRICAN_EXEC_TEAM})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
           >
-            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, #28201d 0%, rgba(40,32,29,0.5) 50%, rgba(40,32,29,0.15) 100%)" }} />
+            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, #262b2d 0%, rgba(38,43,45,0.5) 50%, rgba(38,43,45,0.15) 100%)" }} />
           </div>
           {/* Decorative quote */}
           <div style={{
@@ -646,11 +644,13 @@ function LandingPage({ onStart }: { onStart: () => void }) {
 
 function ConfirmationPage() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center" style={{ background: "#28201d" }}>
+    <div className="min-h-screen flex flex-col items-center justify-center" style={{ background: "#262b2d" }}>
       <div className="flex flex-col items-center gap-8 text-center px-8" style={{ maxWidth: "560px" }}>
-        <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "24px", fontWeight: 600, letterSpacing: "0.05em", color: "#ffffff" }}>
-          evo<span style={{ color: GOLD }}>t</span>rust
-        </div>
+        <img
+          src={LOGO_SRC}
+          alt="EVOTRUST logo"
+          className="h-12 w-auto object-contain"
+        />
 
         <div style={{ width: "40px", height: "1px", background: GOLD }} />
 
@@ -695,7 +695,7 @@ function ConfirmationPage() {
             fontSize: "11px",
             letterSpacing: "0.2em",
             textTransform: "uppercase",
-            color: "#28201d",
+            color: "#262b2d",
             background: GOLD,
             padding: "14px 40px",
             borderRadius: "1px",
@@ -716,6 +716,7 @@ function ConfirmationPage() {
     </div>
   );
 }
+
 
 
 

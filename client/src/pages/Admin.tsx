@@ -4,6 +4,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { getLoginUrl } from "@/const";
 
 const GOLD = "#c29c5e";
+const LOGO_SRC = "/logo-evotrust.png";
 
 export default function Admin() {
   const { user, loading } = useAuth();
@@ -32,7 +33,7 @@ export default function Admin() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "#28201d" }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "#262b2d" }}>
         <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "12px", color: "rgba(194,156,94,0.5)", letterSpacing: "0.15em" }}>
           Chargement...
         </div>
@@ -42,10 +43,8 @@ export default function Admin() {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-6" style={{ background: "#28201d" }}>
-        <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "24px", color: "#ffffff" }}>
-          evo<span style={{ color: GOLD }}>t</span>rust
-        </div>
+      <div className="min-h-screen flex flex-col items-center justify-center gap-6" style={{ background: "#262b2d" }}>
+        <img src={LOGO_SRC} alt="EVOTRUST logo" className="h-12 w-auto object-contain" />
         <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "13px", color: "rgba(255,255,255,0.5)", letterSpacing: "0.05em" }}>
           Accès réservé aux administrateurs
         </p>
@@ -56,7 +55,7 @@ export default function Admin() {
             fontSize: "11px",
             letterSpacing: "0.2em",
             textTransform: "uppercase",
-            color: "#28201d",
+            color: "#262b2d",
             background: GOLD,
             padding: "12px 32px",
             borderRadius: "1px",
@@ -72,7 +71,7 @@ export default function Admin() {
 
   if (user.role !== "admin") {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-4" style={{ background: "#28201d" }}>
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4" style={{ background: "#262b2d" }}>
         <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "24px", color: "#ffffff" }}>
           Accès refusé
         </p>
@@ -88,13 +87,11 @@ export default function Admin() {
   const paginatedResponses = responses.slice(page * pageSize, (page + 1) * pageSize);
 
   return (
-    <div className="min-h-screen" style={{ background: "#28201d" }}>
+    <div className="min-h-screen" style={{ background: "#262b2d" }}>
       {/* Header */}
       <header className="flex items-center justify-between px-8 py-5" style={{ borderBottom: "1px solid rgba(194,156,94,0.15)" }}>
         <div className="flex items-center gap-4">
-          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "22px", fontWeight: 600, letterSpacing: "0.05em", color: "#ffffff" }}>
-            evo<span style={{ color: GOLD }}>t</span>rust
-          </div>
+          <img src={LOGO_SRC} alt="EVOTRUST logo" className="h-10 w-auto object-contain" />
           <span style={{ color: "rgba(194,156,94,0.3)", fontSize: "14px" }}>|</span>
           <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(194,156,94,0.6)" }}>
             Administration
@@ -165,7 +162,7 @@ export default function Admin() {
               fontSize: "11px",
               letterSpacing: "0.15em",
               textTransform: "uppercase",
-              color: "#28201d",
+              color: "#262b2d",
               background: responses.length === 0 ? "rgba(194,156,94,0.3)" : GOLD,
               border: "none",
               padding: "10px 24px",
@@ -352,5 +349,6 @@ function ResponseDetail({ answers, answerCount }: { answers: Record<string, unkn
     </div>
   );
 }
+
 
 

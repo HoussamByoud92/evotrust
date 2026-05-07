@@ -46,30 +46,30 @@
   /* EVOTRUST - Gris, Or, Blanc */
   --radius: 0.25rem;
   --background: #ffffff;
-  --foreground: #28201d;
+  --foreground: #262b2d;
   --card: #ffffff;
-  --card-foreground: #28201d;
+  --card-foreground: #262b2d;
   --popover: #ffffff;
-  --popover-foreground: #28201d;
+  --popover-foreground: #262b2d;
   --primary: #c29c5e;
   --primary-foreground: #ffffff;
-  --secondary: rgba(40,32,29,0.1);
-  --secondary-foreground: #28201d;
-  --muted: rgba(40,32,29,0.08);
-  --muted-foreground: rgba(40,32,29,0.75);
+  --secondary: rgba(38,43,45,0.1);
+  --secondary-foreground: #262b2d;
+  --muted: rgba(38,43,45,0.08);
+  --muted-foreground: rgba(38,43,45,0.75);
   --accent: #c29c5e;
   --accent-foreground: #ffffff;
   --destructive: #c29c5e;
   --destructive-foreground: #ffffff;
-  --border: rgba(40,32,29,0.25);
+  --border: rgba(38,43,45,0.25);
   --input: #ffffff;
   --ring: #c29c5e;
   --chart-1: #c29c5e;
   --chart-2: rgba(194,156,94,0.85);
   --chart-3: rgba(194,156,94,0.7);
-  --chart-4: rgba(40,32,29,0.85);
-  --chart-5: rgba(40,32,29,0.65);
-  --sidebar: #28201d;
+  --chart-4: rgba(38,43,45,0.85);
+  --chart-5: rgba(38,43,45,0.65);
+  --sidebar: #262b2d;
   --sidebar-foreground: #ffffff;
   --sidebar-primary: #c29c5e;
   --sidebar-primary-foreground: #ffffff;
@@ -85,28 +85,28 @@
   --sidebar-primary: #c29c5e;
   --sidebar-primary-foreground: #ffffff;
   --background: #ffffff;
-  --foreground: #28201d;
+  --foreground: #262b2d;
   --card: #ffffff;
-  --card-foreground: #28201d;
+  --card-foreground: #262b2d;
   --popover: #ffffff;
-  --popover-foreground: #28201d;
-  --secondary: rgba(40,32,29,0.1);
-  --secondary-foreground: #28201d;
-  --muted: rgba(40,32,29,0.08);
-  --muted-foreground: rgba(40,32,29,0.75);
+  --popover-foreground: #262b2d;
+  --secondary: rgba(38,43,45,0.1);
+  --secondary-foreground: #262b2d;
+  --muted: rgba(38,43,45,0.08);
+  --muted-foreground: rgba(38,43,45,0.75);
   --accent: #c29c5e;
   --accent-foreground: #ffffff;
   --destructive: #c29c5e;
   --destructive-foreground: #ffffff;
-  --border: rgba(40,32,29,0.25);
+  --border: rgba(38,43,45,0.25);
   --input: #ffffff;
   --ring: #c29c5e;
   --chart-1: #c29c5e;
   --chart-2: rgba(194,156,94,0.85);
   --chart-3: rgba(194,156,94,0.7);
-  --chart-4: rgba(40,32,29,0.85);
-  --chart-5: rgba(40,32,29,0.65);
-  --sidebar: #28201d;
+  --chart-4: rgba(38,43,45,0.85);
+  --chart-5: rgba(38,43,45,0.65);
+  --sidebar: #262b2d;
   --sidebar-foreground: #ffffff;
   --sidebar-accent: rgba(255,255,255,0.12);
   --sidebar-accent-foreground: #ffffff;
@@ -127,7 +127,7 @@
     color: #c29c5e;
   }
   ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: #28201d; }
+  ::-webkit-scrollbar-track { background: #262b2d; }
   ::-webkit-scrollbar-thumb { background: #c29c5e; border-radius: 2px; }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -184,4 +184,5 @@
     }
   }
 }
+
 

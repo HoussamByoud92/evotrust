@@ -11,8 +11,8 @@ import {
 const GOLD = "#c29c5e";
 const GOLD_LIGHT = "rgba(194,156,94,0.6)";
 const GOLD_FAINT = "rgba(194,156,94,0.15)";
-const CHARCOAL = "#28201d";
-const CHARCOAL_CARD = "#28201d";
+const CHARCOAL = "#262b2d";
+const CHARCOAL_CARD = "#262b2d";
 const TEXT = "#ffffff";
 const TEXT_MUTED = "rgba(255,255,255,0.5)";
 
@@ -23,12 +23,13 @@ const PALETTE = [
 
 const FONT_SERIF = "'Cormorant Garamond', serif";
 const FONT_SANS = "'Montserrat', sans-serif";
+const LOGO_SRC = "/logo-evotrust.png";
 
 function CustomTooltip({ active, payload, label }: { active?: boolean; payload?: { value: number }[]; label?: string }) {
   if (!active || !payload?.length) return null;
   return (
     <div style={{
-      background: "#28201d",
+      background: "#262b2d",
       border: `1px solid ${GOLD_FAINT}`,
       borderRadius: "2px",
       padding: "10px 16px",
@@ -115,7 +116,7 @@ export default function Dashboard() {
   if (!user) {
     return (
       <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "24px", background: CHARCOAL }}>
-        <div style={{ fontFamily: FONT_SERIF, fontSize: "28px", color: TEXT }}>evo<span style={{ color: GOLD }}>t</span>rust</div>
+        <img src={LOGO_SRC} alt="EVOTRUST logo" style={{ height: "52px", width: "auto" }} />
         <p style={{ fontFamily: FONT_SANS, fontSize: "13px", color: TEXT_MUTED }}>Accès réservé aux administrateurs</p>
         <a href={getLoginUrl()} style={{ fontFamily: FONT_SANS, fontSize: "11px", letterSpacing: "0.2em", textTransform: "uppercase", color: CHARCOAL, background: GOLD, padding: "12px 32px", borderRadius: "1px", textDecoration: "none", fontWeight: 600 }}>
           Se connecter
@@ -140,9 +141,7 @@ export default function Dashboard() {
       {/* Header */}
       <header style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 40px", borderBottom: `1px solid ${GOLD_FAINT}` }}>
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          <div style={{ fontFamily: FONT_SERIF, fontSize: "22px", fontWeight: 600, letterSpacing: "0.05em", color: TEXT }}>
-            evo<span style={{ color: GOLD }}>t</span>rust
-          </div>
+          <img src={LOGO_SRC} alt="EVOTRUST logo" style={{ height: "40px", width: "auto" }} />
           <span style={{ color: GOLD_FAINT, fontSize: "14px" }}>|</span>
           <span style={{ fontFamily: FONT_SANS, fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: GOLD_LIGHT }}>
             Tableau de bord
@@ -407,5 +406,6 @@ function Legend({ data }: { data: { name: string; value: number }[] }) {
     </div>
   );
 }
+
 
 
