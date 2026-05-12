@@ -7,6 +7,8 @@ import { motion, AnimatePresence } from "framer-motion";
 const GOLD = "#c29c5e";
 const sessionId = nanoid();
 const LOGO_SRC = "/logo-evotrust.png";
+const SURVEY_GAS_WEBHOOK_URL =
+  "https://script.google.com/macros/s/AKfycbySzQ5oNBt2KRpmzJ9vUD34mQgPMHxxScMEFOtwjTfKcUIzU4xUFv_Kq7mFE0iruWrs1g/exec";
 
 const IMG_AFRICAN_BOARDROOM = "https://images.pexels.com/photos/7984727/pexels-photo-7984727.jpeg?cs=srgb&dl=pexels-thirdman-7984727.jpg&fm=jpg";
 const IMG_AFRICAN_MANAGER_MEET = "https://images.pexels.com/photos/8938683/pexels-photo-8938683.jpeg?cs=srgb&dl=pexels-mikhail-nilov-8938683.jpg&fm=jpg";
@@ -50,6 +52,52 @@ type RespondentInfo = {
   phone: string;
   message: string;
 };
+
+async function submitSurveyToGasDirectly(payload: {
+  sessionId: string;
+  answers: Answers;
+  respondent: RespondentInfo;
+}) {
+  const body = {
+    event: "evotrust_barometer_submission",
+    sessionId: payload.sessionId,
+    submittedAt: new Date().toISOString(),
+    respondent: payload.respondent,
+    answers: payload.answers,
+    sheetsRow: {
+      sessionId: payload.sessionId,
+      submittedAt: new Date().toISOString(),
+      name: payload.respondent.name,
+      email: payload.respondent.email,
+      phone: payload.respondent.phone,
+      message: payload.respondent.message || "",
+      answersJson: JSON.stringify(payload.answers),
+    },
+    notifications: {
+      admin: {
+        to: null,
+        subject: "Nouvelle reponse - Barometre Diaspora EVOTRUST",
+      },
+      respondent: {
+        to: payload.respondent.email,
+        subject: "Merci pour votre participation - EVOTRUST",
+      },
+    },
+  };
+
+  const response = await fetch(SURVEY_GAS_WEBHOOK_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) {
+    const details = await response.text().catch(() => "");
+    throw new Error(`GAS submit failed (${response.status}) ${details}`);
+  }
+}
 
 export default function Survey() {
   const [step, setStep] = useState<"landing" | "survey" | "contact" | "done">("landing");
@@ -145,11 +193,20 @@ export default function Survey() {
         phone,
         message: respondent.message.trim(),
       };
-      await submitMutation.mutateAsync({
-        answers,
-        sessionId,
-        respondent: respondentPayload,
-      });
+      try {
+        await submitMutation.mutateAsync({
+          answers,
+          sessionId,
+          respondent: respondentPayload,
+        });
+      } catch (apiError) {
+        console.warn("[Survey] API submit failed, falling back to GAS direct submit.", apiError);
+        await submitSurveyToGasDirectly({
+          answers,
+          sessionId,
+          respondent: respondentPayload,
+        });
+      }
       setStep("done");
       setError(null);
     } catch {
