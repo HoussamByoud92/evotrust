@@ -14,8 +14,6 @@ const trpcMiddleware = createExpressMiddleware({
   createContext,
 });
 
-// Keep both mounts so the handler works whether Vercel forwards the full
-// path (/api/trpc/...) or only the dynamic suffix.
 app.use("/api/trpc", trpcMiddleware);
 app.use("/", trpcMiddleware);
 

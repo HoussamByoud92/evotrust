@@ -3,11 +3,6 @@
   "framework": "vite",
   "buildCommand": "pnpm run build:client",
   "outputDirectory": "dist/public",
-  "functions": {
-    "api/**/*.ts": {
-      "runtime": "@vercel/node@3"
-    }
-  },
   "rewrites": [
     {
       "source": "/((?!api/).*)",
