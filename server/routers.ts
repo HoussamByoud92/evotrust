@@ -7,6 +7,7 @@ import { TRPCError } from "@trpc/server";
 import { saveSurveyResponse, getAllSurveyResponses, getSurveyResponseCount } from "./db";
 import { nanoid } from "nanoid";
 import { syncSurveySubmissionToGas } from "./_core/surveySync";
+import { serialize } from "cookie";
 
 const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
   if (ctx.user.role !== "admin") throw new TRPCError({ code: "FORBIDDEN", message: "Accès réservé aux administrateurs" });
@@ -42,7 +43,12 @@ export const appRouter = router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
       const cookieOptions = getSessionCookieOptions(ctx.req);
-      ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
+      const expired = serialize(COOKIE_NAME, "", {
+        ...cookieOptions,
+        maxAge: 0,
+        expires: new Date(0),
+      });
+      ctx.res.setHeader("Set-Cookie", expired);
       return { success: true } as const;
     }),
   }),
