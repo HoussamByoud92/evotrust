@@ -1,14 +1,11 @@
 ﻿import { useState, useCallback, useEffect, type Dispatch, type SetStateAction } from "react";
 import { QUESTIONS, THEMES } from "@/data/questions";
-import { trpc } from "@/lib/trpc";
 import { nanoid } from "nanoid";
 import { motion, AnimatePresence } from "framer-motion";
 
 const GOLD = "#c29c5e";
 const sessionId = nanoid();
 const LOGO_SRC = "/logo-evotrust.png";
-const SURVEY_GAS_WEBHOOK_URL =
-  "https://script.google.com/macros/s/AKfycbySzQ5oNBt2KRpmzJ9vUD34mQgPMHxxScMEFOtwjTfKcUIzU4xUFv_Kq7mFE0iruWrs1g/exec";
 
 const IMG_AFRICAN_BOARDROOM = "https://images.pexels.com/photos/7984727/pexels-photo-7984727.jpeg?cs=srgb&dl=pexels-thirdman-7984727.jpg&fm=jpg";
 const IMG_AFRICAN_MANAGER_MEET = "https://images.pexels.com/photos/8938683/pexels-photo-8938683.jpeg?cs=srgb&dl=pexels-mikhail-nilov-8938683.jpg&fm=jpg";
@@ -53,7 +50,7 @@ type RespondentInfo = {
   message: string;
 };
 
-async function submitSurveyToGasDirectly(payload: {
+async function submitSurveyViaServer(payload: {
   sessionId: string;
   answers: Answers;
   respondent: RespondentInfo;
@@ -85,7 +82,7 @@ async function submitSurveyToGasDirectly(payload: {
     },
   };
 
-  const response = await fetch(SURVEY_GAS_WEBHOOK_URL, {
+  const response = await fetch("/api/survey-submit", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -95,7 +92,7 @@ async function submitSurveyToGasDirectly(payload: {
 
   if (!response.ok) {
     const details = await response.text().catch(() => "");
-    throw new Error(`GAS submit failed (${response.status}) ${details}`);
+    throw new Error(`Survey submit failed (${response.status}) ${details}`);
   }
 }
 
@@ -105,14 +102,13 @@ export default function Survey() {
   const [answers, setAnswers] = useState<Answers>({});
   const [direction, setDirection] = useState(1);
   const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [respondent, setRespondent] = useState<RespondentInfo>({
     name: "",
     email: "",
     phone: "",
     message: "",
   });
-
-  const submitMutation = trpc.survey.submit.useMutation();
   const question = QUESTIONS[currentIndex];
   const total = QUESTIONS.length;
   const progress = ((currentIndex) / total) * 100;
@@ -187,32 +183,26 @@ export default function Survey() {
     }
 
     try {
+      setIsSubmitting(true);
       const respondentPayload = {
         name,
         email,
         phone,
         message: respondent.message.trim(),
       };
-      try {
-        await submitMutation.mutateAsync({
-          answers,
-          sessionId,
-          respondent: respondentPayload,
-        });
-      } catch (apiError) {
-        console.warn("[Survey] API submit failed, falling back to GAS direct submit.", apiError);
-        await submitSurveyToGasDirectly({
-          answers,
-          sessionId,
-          respondent: respondentPayload,
-        });
-      }
+      await submitSurveyViaServer({
+        answers,
+        sessionId,
+        respondent: respondentPayload,
+      });
       setStep("done");
       setError(null);
     } catch {
       setError("Une erreur est survenue. Veuillez réessayer.");
+    } finally {
+      setIsSubmitting(false);
     }
-  }, [answers, respondent, submitMutation]);
+  }, [answers, respondent]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -237,7 +227,7 @@ export default function Survey() {
           setError(null);
         }}
         onSubmit={handleSubmit}
-        isSubmitting={submitMutation.isPending}
+        isSubmitting={isSubmitting}
         error={error}
       />
     );
@@ -596,7 +586,7 @@ export default function Survey() {
 
         <button
           onClick={handleNext}
-          disabled={submitMutation.isPending}
+          disabled={isSubmitting}
           style={{
             fontFamily: "'Montserrat', sans-serif",
             fontSize: "12px",
@@ -610,12 +600,12 @@ export default function Survey() {
             borderRadius: "1px",
             fontWeight: 600,
             transition: "all 0.2s ease",
-            opacity: submitMutation.isPending ? 0.7 : 1,
+            opacity: isSubmitting ? 0.7 : 1,
           }}
           onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = "#c29c5e"; }}
           onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = GOLD; }}
         >
-          {submitMutation.isPending ? "Envoi..." : isLastQuestion ? "Continuer" : "Suivant"}
+          {isSubmitting ? "Envoi..." : isLastQuestion ? "Continuer" : "Suivant"}
         </button>
       </div>
     </div>
