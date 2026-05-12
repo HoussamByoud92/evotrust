@@ -6,6 +6,7 @@ import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { TRPCError } from "@trpc/server";
 import { saveSurveyResponse, getAllSurveyResponses, getSurveyResponseCount } from "./db";
 import { nanoid } from "nanoid";
+import { syncSurveySubmissionToGas } from "./_core/surveySync";
 
 const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
   if (ctx.user.role !== "admin") throw new TRPCError({ code: "FORBIDDEN", message: "Accès réservé aux administrateurs" });
@@ -51,15 +52,49 @@ export const appRouter = router({
       .input(z.object({
         answers: z.record(z.string(), z.union([z.string(), z.array(z.string()), z.null()])),
         sessionId: z.string().optional(),
+        respondent: z.object({
+          name: z.string().min(1),
+          email: z.string().email(),
+          phone: z.string().min(4),
+          message: z.string().optional(),
+        }).optional(),
       }))
       .mutation(async ({ input }) => {
         const sessionId = input.sessionId || nanoid();
+        const respondent = input.respondent
+          ? {
+              name: input.respondent.name.trim(),
+              email: input.respondent.email.trim(),
+              phone: input.respondent.phone.trim(),
+              message: (input.respondent.message ?? "").trim(),
+            }
+          : null;
+
+        const answersWithRespondent = {
+          ...input.answers,
+          respondentName: respondent?.name ?? null,
+          respondentEmail: respondent?.email ?? null,
+          respondentPhone: respondent?.phone ?? null,
+          respondentMessage: respondent?.message || null,
+        } as Record<string, string | string[] | null>;
+
+        const completedAt = new Date();
         await saveSurveyResponse({
           sessionId,
-          answers: input.answers,
-          completedAt: new Date(),
+          answers: answersWithRespondent,
+          completedAt,
           createdAt: new Date(),
         });
+
+        if (respondent) {
+          await syncSurveySubmissionToGas({
+            sessionId,
+            submittedAtIso: completedAt.toISOString(),
+            answers: input.answers,
+            respondent,
+          });
+        }
+
         return { success: true, sessionId };
       }),
 

@@ -1,4 +1,4 @@
-﻿import { useState, useCallback, useEffect } from "react";
+﻿import { useState, useCallback, useEffect, type Dispatch, type SetStateAction } from "react";
 import { QUESTIONS, THEMES } from "@/data/questions";
 import { trpc } from "@/lib/trpc";
 import { nanoid } from "nanoid";
@@ -8,15 +8,16 @@ const GOLD = "#c29c5e";
 const sessionId = nanoid();
 const LOGO_SRC = "/logo-evotrust.png";
 
-const IMG_AFRICAN_BOARDROOM = "https://images.unsplash.com/photo-1573166364839-1bfe9196c23e?auto=format&fit=crop&q=80&w=1800";
-const IMG_AFRICAN_MANAGER_MEET = "https://images.unsplash.com/photo-1573164574511-73c773193279?auto=format&fit=crop&q=80&w=1800";
-const IMG_AFRICAN_CADRE_INTERVIEW = "https://images.unsplash.com/photo-1573496130407-57329f01f769?auto=format&fit=crop&q=80&w=1800";
-const IMG_AFRICAN_EXEC_TEAM = "https://images.unsplash.com/photo-1573164574397-dd250bc8a598?auto=format&fit=crop&q=80&w=1800";
-const IMG_CORPORATE_LOBBY = "https://images.unsplash.com/photo-1758518729759-f580dc06770f?auto=format&fit=crop&q=80&w=1800";
+const IMG_AFRICAN_BOARDROOM = "https://images.pexels.com/photos/7984727/pexels-photo-7984727.jpeg?cs=srgb&dl=pexels-thirdman-7984727.jpg&fm=jpg";
+const IMG_AFRICAN_MANAGER_MEET = "https://images.pexels.com/photos/8938683/pexels-photo-8938683.jpeg?cs=srgb&dl=pexels-mikhail-nilov-8938683.jpg&fm=jpg";
+const IMG_AFRICAN_CADRE_INTERVIEW = "https://images.pexels.com/photos/8938647/pexels-photo-8938647.jpeg?cs=srgb&dl=pexels-mikhail-nilov-8938647.jpg&fm=jpg";
+const IMG_AFRICAN_EXEC_TEAM = "https://images.pexels.com/photos/8938681/pexels-photo-8938681.jpeg?cs=srgb&dl=pexels-mikhail-nilov-8938681.jpg&fm=jpg";
+const IMG_CORPORATE_LOBBY = "https://images.pexels.com/photos/8938634/pexels-photo-8938634.jpeg?cs=srgb&dl=pexels-mikhail-nilov-8938634.jpg&fm=jpg";
+const IMG_MOROCCAN_CORPORATE = "https://images.pexels.com/photos/8938634/pexels-photo-8938634.jpeg?cs=srgb&dl=pexels-mikhail-nilov-8938634.jpg&fm=jpg";
 
 const STEP_IMAGE_BY_QUESTION_ID: Record<string, string> = {
   q1: IMG_AFRICAN_MANAGER_MEET,
-  q2: IMG_AFRICAN_EXEC_TEAM,
+  q2: IMG_MOROCCAN_CORPORATE,
   q3: IMG_AFRICAN_BOARDROOM,
   q4: IMG_CORPORATE_LOBBY,
   q5: IMG_AFRICAN_CADRE_INTERVIEW,
@@ -43,13 +44,25 @@ const STEP_IMAGE_BY_QUESTION_ID: Record<string, string> = {
 };
 
 type Answers = Record<string, string | string[] | null>;
+type RespondentInfo = {
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+};
 
 export default function Survey() {
-  const [step, setStep] = useState<"landing" | "survey" | "done">("landing");
+  const [step, setStep] = useState<"landing" | "survey" | "contact" | "done">("landing");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
   const [direction, setDirection] = useState(1);
   const [error, setError] = useState<string | null>(null);
+  const [respondent, setRespondent] = useState<RespondentInfo>({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
 
   const submitMutation = trpc.survey.submit.useMutation();
   const question = QUESTIONS[currentIndex];
@@ -94,7 +107,8 @@ export default function Survey() {
       setCurrentIndex(i => i + 1);
       setError(null);
     } else {
-      handleSubmit();
+      setStep("contact");
+      setError(null);
     }
   }, [question, answers, currentIndex, total]);
 
@@ -107,13 +121,41 @@ export default function Survey() {
   }, [currentIndex]);
 
   const handleSubmit = useCallback(async () => {
+    const email = respondent.email.trim();
+    const phone = respondent.phone.trim();
+    const name = respondent.name.trim();
+
+    if (!name) {
+      setError("Merci d'indiquer votre nom complet.");
+      return;
+    }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError("Merci d'indiquer une adresse e-mail valide.");
+      return;
+    }
+    if (!phone) {
+      setError("Merci d'indiquer votre numéro de téléphone.");
+      return;
+    }
+
     try {
-      await submitMutation.mutateAsync({ answers, sessionId });
+      const respondentPayload = {
+        name,
+        email,
+        phone,
+        message: respondent.message.trim(),
+      };
+      await submitMutation.mutateAsync({
+        answers,
+        sessionId,
+        respondent: respondentPayload,
+      });
       setStep("done");
+      setError(null);
     } catch {
       setError("Une erreur est survenue. Veuillez réessayer.");
     }
-  }, [answers, submitMutation]);
+  }, [answers, respondent, submitMutation]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -127,6 +169,22 @@ export default function Survey() {
   }, [step, handleNext, handlePrev]);
 
   if (step === "landing") return <LandingPage onStart={() => setStep("survey")} />;
+  if (step === "contact") {
+    return (
+      <ContactStep
+        respondent={respondent}
+        setRespondent={setRespondent}
+        onBack={() => {
+          setStep("survey");
+          setCurrentIndex(total - 1);
+          setError(null);
+        }}
+        onSubmit={handleSubmit}
+        isSubmitting={submitMutation.isPending}
+        error={error}
+      />
+    );
+  }
   if (step === "done") return <ConfirmationPage />;
 
   const questionImage =
@@ -500,7 +558,7 @@ export default function Survey() {
           onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = "#c29c5e"; }}
           onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = GOLD; }}
         >
-          {submitMutation.isPending ? "Envoi..." : isLastQuestion ? "Soumettre" : "Suivant"}
+          {submitMutation.isPending ? "Envoi..." : isLastQuestion ? "Continuer" : "Suivant"}
         </button>
       </div>
     </div>
@@ -642,6 +700,172 @@ function LandingPage({ onStart }: { onStart: () => void }) {
   );
 }
 
+function ContactStep({
+  respondent,
+  setRespondent,
+  onBack,
+  onSubmit,
+  isSubmitting,
+  error,
+}: {
+  respondent: RespondentInfo;
+  setRespondent: Dispatch<SetStateAction<RespondentInfo>>;
+  onBack: () => void;
+  onSubmit: () => void;
+  isSubmitting: boolean;
+  error: string | null;
+}) {
+  return (
+    <div className="min-h-screen flex flex-col" style={{ background: "#262b2d" }}>
+      <header className="flex items-center justify-between px-8 py-5 border-b" style={{ borderColor: "rgba(194,156,94,0.15)" }}>
+        <img src={LOGO_SRC} alt="EVOTRUST logo" className="h-9 w-auto object-contain" />
+        <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "11px", color: "rgba(194,156,94,0.6)", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+          Finaliser votre participation
+        </div>
+      </header>
+
+      <div className="flex flex-1 flex-col lg:flex-row">
+        <div className="flex-1 px-6 lg:px-12 py-8 lg:py-12 max-w-3xl">
+          <div style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "11px", letterSpacing: "0.2em", color: "rgba(194,156,94,0.55)", textTransform: "uppercase", marginBottom: "14px" }}>
+            Étape finale
+          </div>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(28px, 4vw, 42px)", color: "#ffffff", fontWeight: 500, lineHeight: 1.2 }}>
+            Vos coordonnées
+          </h2>
+          <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "13px", color: "rgba(255,255,255,0.68)", marginTop: "10px", lineHeight: 1.7 }}>
+            Merci de renseigner vos informations. Le message est facultatif.
+          </p>
+
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input
+              value={respondent.name}
+              onChange={e => setRespondent(prev => ({ ...prev, name: e.target.value }))}
+              placeholder="Nom complet *"
+              style={{
+                width: "100%",
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(194,156,94,0.28)",
+                color: "#ffffff",
+                borderRadius: "2px",
+                padding: "12px 14px",
+                outline: "none",
+                fontFamily: "'Montserrat', sans-serif",
+              }}
+            />
+            <input
+              type="email"
+              value={respondent.email}
+              onChange={e => setRespondent(prev => ({ ...prev, email: e.target.value }))}
+              placeholder="Email *"
+              style={{
+                width: "100%",
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(194,156,94,0.28)",
+                color: "#ffffff",
+                borderRadius: "2px",
+                padding: "12px 14px",
+                outline: "none",
+                fontFamily: "'Montserrat', sans-serif",
+              }}
+            />
+            <input
+              value={respondent.phone}
+              onChange={e => setRespondent(prev => ({ ...prev, phone: e.target.value }))}
+              placeholder="Téléphone *"
+              style={{
+                width: "100%",
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(194,156,94,0.28)",
+                color: "#ffffff",
+                borderRadius: "2px",
+                padding: "12px 14px",
+                outline: "none",
+                fontFamily: "'Montserrat', sans-serif",
+              }}
+            />
+            <div />
+            <textarea
+              value={respondent.message}
+              onChange={e => setRespondent(prev => ({ ...prev, message: e.target.value }))}
+              placeholder="Message (facultatif)"
+              rows={5}
+              className="md:col-span-2"
+              style={{
+                width: "100%",
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(194,156,94,0.28)",
+                color: "#ffffff",
+                borderRadius: "2px",
+                padding: "14px",
+                outline: "none",
+                resize: "vertical",
+                fontFamily: "'Montserrat', sans-serif",
+              }}
+            />
+          </div>
+
+          {error ? (
+            <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "12px", color: "#c29c5e", marginTop: "12px", letterSpacing: "0.04em" }}>
+              {error}
+            </p>
+          ) : null}
+
+          <div className="flex items-center justify-between mt-8">
+            <button
+              onClick={onBack}
+              style={{
+                fontFamily: "'Montserrat', sans-serif",
+                fontSize: "12px",
+                letterSpacing: "0.15em",
+                textTransform: "uppercase",
+                color: "rgba(194,156,94,0.65)",
+                background: "transparent",
+                border: "none",
+                cursor: "pointer",
+                padding: "10px 0",
+              }}
+            >
+              Retour
+            </button>
+            <button
+              onClick={onSubmit}
+              disabled={isSubmitting}
+              style={{
+                fontFamily: "'Montserrat', sans-serif",
+                fontSize: "12px",
+                letterSpacing: "0.15em",
+                textTransform: "uppercase",
+                color: "#262b2d",
+                background: GOLD,
+                border: "none",
+                cursor: isSubmitting ? "not-allowed" : "pointer",
+                padding: "12px 30px",
+                borderRadius: "1px",
+                fontWeight: 600,
+                opacity: isSubmitting ? 0.75 : 1,
+              }}
+            >
+              {isSubmitting ? "Envoi..." : "Soumettre"}
+            </button>
+          </div>
+        </div>
+
+        <div className="hidden lg:block flex-1 relative overflow-hidden">
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `url(${IMG_MOROCCAN_CORPORATE})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, #262b2d 0%, rgba(38,43,45,0.3) 40%, rgba(38,43,45,0.1) 100%)" }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ConfirmationPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center" style={{ background: "#262b2d" }}>
@@ -716,6 +940,7 @@ function ConfirmationPage() {
     </div>
   );
 }
+
 
 
 
