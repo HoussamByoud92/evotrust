@@ -7,39 +7,36 @@ const GOLD = "#c29c5e";
 const sessionId = nanoid();
 const LOGO_SRC = "/logo-evotrust.png";
 
-const IMG_MOROCCAN_BOARDROOM = "https://images.pexels.com/photos/4344114/pexels-photo-4344114.jpeg?auto=compress&cs=tinysrgb&w=1600";
-const IMG_MOROCCAN_MANAGER_MEET = "https://images.pexels.com/photos/4342126/pexels-photo-4342126.jpeg?auto=compress&cs=tinysrgb&w=1600";
-const IMG_MOROCCAN_CADRE_INTERVIEW = "https://images.pexels.com/photos/4343027/pexels-photo-4343027.jpeg?auto=compress&cs=tinysrgb&w=1600";
-const IMG_MOROCCAN_EXEC_TEAM = "https://images.pexels.com/photos/4343206/pexels-photo-4343206.jpeg?auto=compress&cs=tinysrgb&w=1600";
-const IMG_MOROCCAN_CORPORATE = "https://images.pexels.com/photos/4345109/pexels-photo-4345109.jpeg?auto=compress&cs=tinysrgb&w=1600";
-
 const STEP_IMAGE_BY_QUESTION_ID: Record<string, string> = {
-  q1: IMG_MOROCCAN_MANAGER_MEET,
-  q2: IMG_MOROCCAN_CORPORATE,
-  q3: IMG_MOROCCAN_BOARDROOM,
-  q4: IMG_MOROCCAN_CORPORATE,
-  q5: IMG_MOROCCAN_CADRE_INTERVIEW,
-  q6: IMG_MOROCCAN_EXEC_TEAM,
-  q7: IMG_MOROCCAN_MANAGER_MEET,
-  q8: IMG_MOROCCAN_CORPORATE,
-  q9: IMG_MOROCCAN_BOARDROOM,
-  q10: IMG_MOROCCAN_EXEC_TEAM,
-  q11: IMG_MOROCCAN_CADRE_INTERVIEW,
-  q12: IMG_MOROCCAN_MANAGER_MEET,
-  q13: IMG_MOROCCAN_EXEC_TEAM,
-  q14: IMG_MOROCCAN_BOARDROOM,
-  q15: IMG_MOROCCAN_CORPORATE,
-  q16: IMG_MOROCCAN_MANAGER_MEET,
-  q17: IMG_MOROCCAN_CADRE_INTERVIEW,
-  q18: IMG_MOROCCAN_EXEC_TEAM,
-  q19: IMG_MOROCCAN_BOARDROOM,
-  q20: IMG_MOROCCAN_MANAGER_MEET,
-  q21: IMG_MOROCCAN_EXEC_TEAM,
-  q22: IMG_MOROCCAN_CORPORATE,
-  q23: IMG_MOROCCAN_CADRE_INTERVIEW,
-  q24: IMG_MOROCCAN_BOARDROOM,
-  q25: IMG_MOROCCAN_MANAGER_MEET,
+  q1: "https://images.pexels.com/photos/4344114/pexels-photo-4344114.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  q2: "https://images.pexels.com/photos/4342126/pexels-photo-4342126.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  q3: "https://images.pexels.com/photos/4343027/pexels-photo-4343027.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  q4: "https://images.pexels.com/photos/4343206/pexels-photo-4343206.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  q5: "https://images.pexels.com/photos/4345109/pexels-photo-4345109.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  q6: "https://images.pexels.com/photos/4344116/pexels-photo-4344116.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  q7: "https://images.pexels.com/photos/18999158/pexels-photo-18999158.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  q8: "https://images.pexels.com/photos/8068833/pexels-photo-8068833.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  q9: "https://images.pexels.com/photos/7495493/pexels-photo-7495493.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  q10: "https://images.pexels.com/photos/6930273/pexels-photo-6930273.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  q11: "https://images.pexels.com/photos/7652044/pexels-photo-7652044.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  q12: "https://images.pexels.com/photos/7654407/pexels-photo-7654407.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  q13: "https://images.pexels.com/photos/6146812/pexels-photo-6146812.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  q14: "https://images.pexels.com/photos/7652049/pexels-photo-7652049.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  q15: "https://images.pexels.com/photos/7652046/pexels-photo-7652046.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  q16: "https://images.pexels.com/photos/5946207/pexels-photo-5946207.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  q17: "https://images.pexels.com/photos/7495557/pexels-photo-7495557.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  q18: "https://images.pexels.com/photos/6913217/pexels-photo-6913217.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  q19: "https://images.pexels.com/photos/6914012/pexels-photo-6914012.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  q20: "https://images.pexels.com/photos/8519089/pexels-photo-8519089.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  q21: "https://images.pexels.com/photos/6150528/pexels-photo-6150528.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  q22: "https://images.pexels.com/photos/7648222/pexels-photo-7648222.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  q23: "https://images.pexels.com/photos/6248968/pexels-photo-6248968.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  q24: "https://images.pexels.com/photos/7495649/pexels-photo-7495649.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  q25: "https://images.pexels.com/photos/7652256/pexels-photo-7652256.jpeg?auto=compress&cs=tinysrgb&w=1600",
 };
+
+const IMG_MOROCCAN_CORPORATE = STEP_IMAGE_BY_QUESTION_ID.q2;
+const IMG_MOROCCAN_EXEC_TEAM = STEP_IMAGE_BY_QUESTION_ID.q6;
 
 type Answers = Record<string, string | string[] | null>;
 type RespondentInfo = {
@@ -235,7 +232,7 @@ export default function Survey() {
 
   const questionImage =
     (question?.id ? STEP_IMAGE_BY_QUESTION_ID[question.id] : undefined) ||
-    IMG_MOROCCAN_BOARDROOM;
+    STEP_IMAGE_BY_QUESTION_ID.q1;
   const currentAnswer = answers[question?.id || ""];
   const isMultiple = question?.type === "multiple";
   const selectedMultiple = (currentAnswer as string[]) || [];
