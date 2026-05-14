@@ -40,10 +40,12 @@ const IMG_MOROCCAN_EXEC_TEAM = STEP_IMAGE_BY_QUESTION_ID.q6;
 
 type Answers = Record<string, string | string[] | null>;
 type RespondentInfo = {
-  name: string;
+  lastName: string;
+  firstName: string;
   email: string;
   phone: string;
-  message: string;
+  role: string;
+  sector: string;
 };
 
 async function submitSurveyViaServer(payload: {
@@ -60,10 +62,13 @@ async function submitSurveyViaServer(payload: {
     sheetsRow: {
       sessionId: payload.sessionId,
       submittedAt: new Date().toISOString(),
-      name: payload.respondent.name,
+      lastName: payload.respondent.lastName,
+      firstName: payload.respondent.firstName,
+      name: `${payload.respondent.firstName} ${payload.respondent.lastName}`.trim(),
       email: payload.respondent.email,
       phone: payload.respondent.phone,
-      message: payload.respondent.message || "",
+      role: payload.respondent.role,
+      sector: payload.respondent.sector,
       answersJson: JSON.stringify(payload.answers),
     },
     notifications: {
@@ -100,10 +105,12 @@ export default function Survey() {
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [respondent, setRespondent] = useState<RespondentInfo>({
-    name: "",
+    lastName: "",
+    firstName: "",
     email: "",
     phone: "",
-    message: "",
+    role: "",
+    sector: "",
   });
   const question = QUESTIONS[currentIndex];
   const total = QUESTIONS.length;
@@ -163,10 +170,17 @@ export default function Survey() {
   const handleSubmit = useCallback(async () => {
     const email = respondent.email.trim();
     const phone = respondent.phone.trim();
-    const name = respondent.name.trim();
+    const lastName = respondent.lastName.trim();
+    const firstName = respondent.firstName.trim();
+    const role = respondent.role.trim();
+    const sector = respondent.sector.trim();
 
-    if (!name) {
-      setError("Merci d'indiquer votre nom complet.");
+    if (!lastName) {
+      setError("Merci d'indiquer votre nom.");
+      return;
+    }
+    if (!firstName) {
+      setError("Merci d'indiquer votre prénom.");
       return;
     }
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -177,14 +191,24 @@ export default function Survey() {
       setError("Merci d'indiquer votre numéro de téléphone.");
       return;
     }
+    if (!role) {
+      setError("Merci d'indiquer votre fonction.");
+      return;
+    }
+    if (!sector) {
+      setError("Merci d'indiquer votre secteur.");
+      return;
+    }
 
     try {
       setIsSubmitting(true);
       const respondentPayload = {
-        name,
+        lastName,
+        firstName,
         email,
         phone,
-        message: respondent.message.trim(),
+        role,
+        sector,
       };
       await submitSurveyViaServer({
         answers,
@@ -776,14 +800,29 @@ function ContactStep({
             Vos coordonnées
           </h2>
           <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "13px", color: "rgba(255,255,255,0.68)", marginTop: "10px", lineHeight: 1.7 }}>
-            Merci de renseigner vos informations. Le message est facultatif.
+            Pour obtenir les résultats, merci de renseigner: Nom, Prénom, Téléphone, E-mail, Fonction et Secteur.
           </p>
 
           <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
             <input
-              value={respondent.name}
-              onChange={e => setRespondent(prev => ({ ...prev, name: e.target.value }))}
-              placeholder="Nom complet *"
+              value={respondent.lastName}
+              onChange={e => setRespondent(prev => ({ ...prev, lastName: e.target.value }))}
+              placeholder="Nom *"
+              style={{
+                width: "100%",
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(194,156,94,0.28)",
+                color: "#ffffff",
+                borderRadius: "2px",
+                padding: "12px 14px",
+                outline: "none",
+                fontFamily: "'Montserrat', sans-serif",
+              }}
+            />
+            <input
+              value={respondent.firstName}
+              onChange={e => setRespondent(prev => ({ ...prev, firstName: e.target.value }))}
+              placeholder="Prénom *"
               style={{
                 width: "100%",
                 background: "rgba(255,255,255,0.03)",
@@ -826,12 +865,25 @@ function ContactStep({
                 fontFamily: "'Montserrat', sans-serif",
               }}
             />
-            <div />
-            <textarea
-              value={respondent.message}
-              onChange={e => setRespondent(prev => ({ ...prev, message: e.target.value }))}
-              placeholder="Message (facultatif)"
-              rows={5}
+            <input
+              value={respondent.role}
+              onChange={e => setRespondent(prev => ({ ...prev, role: e.target.value }))}
+              placeholder="Fonction *"
+              style={{
+                width: "100%",
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(194,156,94,0.28)",
+                color: "#ffffff",
+                borderRadius: "2px",
+                padding: "12px 14px",
+                outline: "none",
+                fontFamily: "'Montserrat', sans-serif",
+              }}
+            />
+            <input
+              value={respondent.sector}
+              onChange={e => setRespondent(prev => ({ ...prev, sector: e.target.value }))}
+              placeholder="Secteur *"
               className="md:col-span-2"
               style={{
                 width: "100%",
@@ -839,13 +891,16 @@ function ContactStep({
                 border: "1px solid rgba(194,156,94,0.28)",
                 color: "#ffffff",
                 borderRadius: "2px",
-                padding: "14px",
+                padding: "12px 14px",
                 outline: "none",
-                resize: "vertical",
                 fontFamily: "'Montserrat', sans-serif",
               }}
             />
           </div>
+
+          <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "11px", color: "rgba(255,255,255,0.45)", marginTop: "10px", lineHeight: 1.6 }}>
+            Confidentialité des données.
+          </p>
 
           {error ? (
             <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "12px", color: "#c29c5e", marginTop: "12px", letterSpacing: "0.04em" }}>
