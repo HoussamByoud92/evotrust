@@ -694,7 +694,17 @@ function LandingPage({ onStart }: { onStart: () => void }) {
               color: "rgba(255,255,255,0.65)",
               maxWidth: "440px",
             }}>
-              25 questions. 5 thématiques. Une étude exclusive sur les attentes, les freins et les aspirations des talents marocains à l'international.
+              25 questions. 5 thématiques.
+            </p>
+            <p style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: "18px",
+              fontWeight: 300,
+              lineHeight: 1.7,
+              color: "rgba(255,255,255,0.65)",
+              maxWidth: "440px",
+            }}>
+              Une étude exclusive sur les attentes, les freins et les aspirations  des talents de la diaspora.
             </p>
 
             <div className="flex gap-8" style={{ borderTop: "1px solid rgba(194,156,94,0.15)", paddingTop: "24px" }}>

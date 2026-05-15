@@ -47,7 +47,7 @@ export const QUESTIONS: Question[] = [
   },
   {
     id: "q3", number: 3, theme: 1, themeLabel: "Profil & Situation Actuelle",
-    text: "De quelle diaspora êtes-vous ?",
+    text: "De quelle diaspora êtes-vous issue ?",
     type: "single",
     options: ["Marocaine", "Algérienne", "Tunisienne", "Autre (préciser)"],
     required: true,
