@@ -187,46 +187,20 @@ export default function Survey() {
 
   const handleSubmit = useCallback(async () => {
     const email = respondent.email.trim();
-    const phone = respondent.phone.trim();
-    const lastName = respondent.lastName.trim();
-    const firstName = respondent.firstName.trim();
-    const role = respondent.role.trim();
-    const sector = respondent.sector.trim();
-
-    if (!lastName) {
-      setError("Merci d'indiquer votre nom.");
-      return;
-    }
-    if (!firstName) {
-      setError("Merci d'indiquer votre prénom.");
-      return;
-    }
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError("Merci d'indiquer une adresse e-mail valide.");
-      return;
-    }
-    if (!phone) {
-      setError("Merci d'indiquer votre numéro de téléphone.");
-      return;
-    }
-    if (!role) {
-      setError("Merci d'indiquer votre fonction.");
-      return;
-    }
-    if (!sector) {
-      setError("Merci d'indiquer votre secteur.");
       return;
     }
 
     try {
       setIsSubmitting(true);
       const respondentPayload = {
-        lastName,
-        firstName,
+        lastName: respondent.lastName.trim(),
+        firstName: respondent.firstName.trim(),
         email,
-        phone,
-        role,
-        sector,
+        phone: respondent.phone.trim(),
+        role: respondent.role.trim(),
+        sector: respondent.sector.trim(),
       };
       await submitSurveyViaServer({
         answers,
@@ -828,14 +802,14 @@ function ContactStep({
             Vos coordonnées
           </h2>
           <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "13px", color: "rgba(255,255,255,0.68)", marginTop: "10px", lineHeight: 1.7 }}>
-            Pour obtenir les résultats, merci de renseigner: Nom, Prénom, Téléphone, E-mail, Fonction et Secteur.
+            Ces informations sont facultatives. Vous pouvez soumettre même sans les renseigner.
           </p>
 
           <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
             <input
               value={respondent.lastName}
               onChange={e => setRespondent(prev => ({ ...prev, lastName: e.target.value }))}
-              placeholder="Nom *"
+              placeholder="Nom"
               style={{
                 width: "100%",
                 background: "rgba(255,255,255,0.03)",
@@ -850,7 +824,7 @@ function ContactStep({
             <input
               value={respondent.firstName}
               onChange={e => setRespondent(prev => ({ ...prev, firstName: e.target.value }))}
-              placeholder="Prénom *"
+              placeholder="Prénom"
               style={{
                 width: "100%",
                 background: "rgba(255,255,255,0.03)",
@@ -866,7 +840,7 @@ function ContactStep({
               type="email"
               value={respondent.email}
               onChange={e => setRespondent(prev => ({ ...prev, email: e.target.value }))}
-              placeholder="Email *"
+              placeholder="Email"
               style={{
                 width: "100%",
                 background: "rgba(255,255,255,0.03)",
@@ -881,7 +855,7 @@ function ContactStep({
             <input
               value={respondent.phone}
               onChange={e => setRespondent(prev => ({ ...prev, phone: e.target.value }))}
-              placeholder="Téléphone *"
+              placeholder="Téléphone"
               style={{
                 width: "100%",
                 background: "rgba(255,255,255,0.03)",
@@ -896,7 +870,7 @@ function ContactStep({
             <input
               value={respondent.role}
               onChange={e => setRespondent(prev => ({ ...prev, role: e.target.value }))}
-              placeholder="Fonction *"
+              placeholder="Fonction"
               style={{
                 width: "100%",
                 background: "rgba(255,255,255,0.03)",
@@ -911,7 +885,7 @@ function ContactStep({
             <input
               value={respondent.sector}
               onChange={e => setRespondent(prev => ({ ...prev, sector: e.target.value }))}
-              placeholder="Secteur *"
+              placeholder="Secteur"
               className="md:col-span-2"
               style={{
                 width: "100%",
@@ -927,7 +901,7 @@ function ContactStep({
           </div>
 
           <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "11px", color: "rgba(255,255,255,0.45)", marginTop: "10px", lineHeight: 1.6 }}>
-            Confidentialité des données.
+            Les données collectées restent strictement confidentielles.
           </p>
 
           {error ? (
@@ -1066,7 +1040,6 @@ function ConfirmationPage() {
     </div>
   );
 }
-
 
 
 
