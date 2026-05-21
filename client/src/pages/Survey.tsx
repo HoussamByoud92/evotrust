@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const GOLD = "#c29c5e";
 const sessionId = nanoid();
 const LOGO_SRC = "/logo-evotrust.png";
+const GAS_SHEET_NAME = "Barometer_responses_2";
 
 const SURVEY_PHOTOS = [
   "https://images.pexels.com/photos/7869132/pexels-photo-7869132.jpeg",
@@ -73,6 +74,7 @@ async function submitSurveyViaServer(payload: {
 }) {
   const body = {
     event: "evotrust_barometer_submission",
+    sheetName: GAS_SHEET_NAME,
     sessionId: payload.sessionId,
     submittedAt: new Date().toISOString(),
     respondent: payload.respondent,
@@ -1040,7 +1042,6 @@ function ConfirmationPage() {
     </div>
   );
 }
-
 
 
 

@@ -1,5 +1,6 @@
 const SURVEY_GAS_WEBHOOK_URL =
   "https://script.google.com/macros/s/AKfycbySzQ5oNBt2KRpmzJ9vUD34mQgPMHxxScMEFOtwjTfKcUIzU4xUFv_Kq7mFE0iruWrs1g/exec";
+const GAS_SHEET_NAME = "Barometer_responses_2";
 
 type JsonRecord = Record<string, unknown>;
 
@@ -92,6 +93,10 @@ export async function POST(request: Request): Promise<Response> {
 
     const gasPayload: JsonRecord = {
       ...body,
+      sheetName:
+        typeof body.sheetName === "string" && body.sheetName.trim()
+          ? body.sheetName
+          : GAS_SHEET_NAME,
       sessionId,
       submittedAt,
       answers,
