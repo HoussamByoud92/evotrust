@@ -97,6 +97,14 @@ export async function POST(request: Request): Promise<Response> {
         typeof body.sheetName === "string" && body.sheetName.trim()
           ? body.sheetName
           : GAS_SHEET_NAME,
+      targetSheetName:
+        typeof body.targetSheetName === "string" && body.targetSheetName.trim()
+          ? body.targetSheetName
+          : (typeof body.sheetName === "string" && body.sheetName.trim() ? body.sheetName : GAS_SHEET_NAME),
+      sheet_name:
+        typeof body.sheet_name === "string" && body.sheet_name.trim()
+          ? body.sheet_name
+          : (typeof body.sheetName === "string" && body.sheetName.trim() ? body.sheetName : GAS_SHEET_NAME),
       sessionId,
       submittedAt,
       answers,

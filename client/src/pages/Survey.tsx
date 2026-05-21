@@ -75,6 +75,8 @@ async function submitSurveyViaServer(payload: {
   const body = {
     event: "evotrust_barometer_submission",
     sheetName: GAS_SHEET_NAME,
+    targetSheetName: GAS_SHEET_NAME,
+    sheet_name: GAS_SHEET_NAME,
     sessionId: payload.sessionId,
     submittedAt: new Date().toISOString(),
     respondent: payload.respondent,
@@ -1042,6 +1044,5 @@ function ConfirmationPage() {
     </div>
   );
 }
-
 
 
